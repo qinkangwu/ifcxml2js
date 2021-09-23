@@ -1,0 +1,22 @@
+{
+  "name": "ifcxml2js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ifcxml2js": "./bin/index"
+  },
+  "author": "https://github.com/qinkangwu",
+  "license": "ISC",
+  "repository":{ 
+    "type" : "git", 
+    "url" : "https://github.com/qinkangwu/ifcxml2js"
+  },
+  "dependencies": {
+    "xml2js": "^0.4.23",
+    "optimist": "^0.6.1"
+  }
+}
