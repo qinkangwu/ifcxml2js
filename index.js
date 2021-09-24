@@ -27,27 +27,27 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
           let currentType = '';
           if(!findObj){
             findObj = uosObj[0]['IfcPipeFitting'] && uosObj[0]['IfcPipeFitting'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcPipeFittingType');
+            currentType = 'IfcPipeFittingType';
           }
           if(!findObj){
             findObj = uosObj[0]['IfcPipeSegment'] && uosObj[0]['IfcPipeSegment'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcPipeSegmentType');
+            currentType = 'IfcPipeSegmentType';
           }
           if(!findObj){
             findObj = uosObj[0]['IfcWall'] && uosObj[0]['IfcWall'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcWallType');
+            currentType = 'IfcWallType';
           }
           if(!findObj){
             findObj = uosObj[0]['IfcFlowTerminal'] && uosObj[0]['IfcFlowTerminal'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcFlowTerminalType');
+            currentType = 'IfcFlowTerminalType';
           }
           if(!findObj){
             findObj = uosObj[0]['IfcFlowSegment'] && uosObj[0]['IfcFlowSegment'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcFlowSegmentType');
+            currentType = 'IfcFlowSegmentType';
           }
           if(!findObj){
             findObj = uosObj[0]['IfcFlowFitting'] && uosObj[0]['IfcFlowFitting'].find((r)=>r['$']['id'] === refStr);
-            !findObj && (currentType = 'IfcFlowFittingType');
+            currentType = 'IfcFlowFittingType';
           }
           findObj && componentArr.push({
             ref: refStr,
