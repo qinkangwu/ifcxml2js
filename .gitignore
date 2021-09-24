@@ -17,5 +17,6 @@ package-lock.json
 *.ifc
 *.ifcxml
 demo.*
+a.json
 
 npm-debug.log

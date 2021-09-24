@@ -4,6 +4,20 @@ const argv = require('optimist').argv;
 
 if(!argv.i || !argv.o || !argv.n)throw Error('参数为空');
 
+const map = [
+  'IfcPipeFitting',
+  'IfcPipeSegment',
+  'IfcWall',
+  'IfcFlowTerminal',
+  'IfcFlowSegment',
+  'IfcFlowFitting',
+  'IfcBuildingElementProxy',
+  'IfcDoor',
+  'IfcRailing',
+  'IfcSlab',
+  'IfcWindow'
+];
+
 fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
   parseString(xmlData,(err2,res)=>{
     let element;
@@ -26,38 +40,21 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
           let findObj = null;
           let currentType = '';
           if(!findObj){
-            findObj = uosObj[0]['IfcPipeFitting'] && uosObj[0]['IfcPipeFitting'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcPipeFittingType';
+            map.map((r)=>{
+              findObj = null;
+              findObj = uosObj[0][r] && uosObj[0][r].find((r)=>r['$']['id'] === refStr);
+              currentType = `${r}Type`;
+              findObj && componentArr.push({
+                ref: refStr,
+                name: findObj['Name'][0],
+                objectType: findObj['ObjectType'][0].split(':')[0],
+                properties: [],
+                typeData:[],
+                globalId: findObj['GlobalId'][0],
+                currentType
+              });
+            })
           }
-          if(!findObj){
-            findObj = uosObj[0]['IfcPipeSegment'] && uosObj[0]['IfcPipeSegment'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcPipeSegmentType';
-          }
-          if(!findObj){
-            findObj = uosObj[0]['IfcWall'] && uosObj[0]['IfcWall'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcWallType';
-          }
-          if(!findObj){
-            findObj = uosObj[0]['IfcFlowTerminal'] && uosObj[0]['IfcFlowTerminal'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcFlowTerminalType';
-          }
-          if(!findObj){
-            findObj = uosObj[0]['IfcFlowSegment'] && uosObj[0]['IfcFlowSegment'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcFlowSegmentType';
-          }
-          if(!findObj){
-            findObj = uosObj[0]['IfcFlowFitting'] && uosObj[0]['IfcFlowFitting'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcFlowFittingType';
-          }
-          findObj && componentArr.push({
-            ref: refStr,
-            name: findObj['Name'][0],
-            objectType: findObj['ObjectType'][0].split(':')[0],
-            properties: [],
-            typeData:[],
-            globalId: findObj['GlobalId'][0],
-            currentType
-          });
         }
       }
     }
