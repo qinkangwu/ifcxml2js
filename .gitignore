@@ -12,5 +12,6 @@ logs
 results
 node_modules
 package-lock.json
+demo.*
 
 npm-debug.log

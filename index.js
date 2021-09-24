@@ -84,7 +84,6 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
             const typeArr = item2[r];
             for (let i3 = 0; i3 < typeArr.length; i3++) {
               const typeRefItem = typeArr[i3]['$'];
-              // console.log(componentArr[findIndex],findIndex,componentArr);
               if(!componentArr[findIndex]) continue;
               const currentTypeObj = uosObj[0][componentArr[findIndex]['currentType']];
               if(!currentTypeObj) continue;
