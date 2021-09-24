@@ -181,10 +181,6 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
           }
         }
       }
-    }
-
-    for (let i = 0; i < componentArr.length; i++) {
-      const item = componentArr[i];
       for (let i2 = 0; i2 < item['typeData'].length; i2++) {
         for(var j = i2+1; j < item['typeData'].length; j++){
           if(item['typeData'][i2].key === item['typeData'][j].key){
