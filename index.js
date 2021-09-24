@@ -99,6 +99,7 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
                         if(element['RelatedObjects'][0][r][0]['$']['ref'] === componentArr[findIndex]['ref']){
                           for (let i7 = 0; i7 < element['RelatingPropertyDefinition'].length; i7++) {
                             const element2 = element['RelatingPropertyDefinition'][i7];
+                            if(!element2['IfcPropertySet']) continue;
                             for (let i8 = 0; i8 < element2['IfcPropertySet'].length; i8++) {
                               const element3 = element2['IfcPropertySet'][i8];
                               for (let i9 = 0; i9 < uosObj[0]['IfcPropertySet'].length; i9++) {
@@ -176,6 +177,18 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
         for(var j = i2+1; j < item['properties'].length; j++){
           if(item['properties'][i2].key === item['properties'][j].key){
             item['properties'].splice(j,1);
+              j--;
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < componentArr.length; i++) {
+      const item = componentArr[i];
+      for (let i2 = 0; i2 < item['typeData'].length; i2++) {
+        for(var j = i2+1; j < item['typeData'].length; j++){
+          if(item['typeData'][i2].key === item['typeData'][j].key){
+            item['typeData'].splice(j,1);
               j--;
           }
         }

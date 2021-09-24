@@ -12,6 +12,10 @@ logs
 results
 node_modules
 package-lock.json
+*.obj
+*.mtl
+*.ifc
+*.ifcxml
 demo.*
 
 npm-debug.log
