@@ -26,22 +26,30 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
           let findObj = null;
           let currentType = '';
           if(!findObj){
-            findObj = uosObj[0]['IfcPipeFitting'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcPipeFittingType';
+            findObj = uosObj[0]['IfcPipeFitting'] && uosObj[0]['IfcPipeFitting'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcPipeFittingType');
           }
           if(!findObj){
-            findObj = uosObj[0]['IfcPipeSegment'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcPipeSegmentType';
+            findObj = uosObj[0]['IfcPipeSegment'] && uosObj[0]['IfcPipeSegment'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcPipeSegmentType');
           }
           if(!findObj){
-            findObj = uosObj[0]['IfcWall'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcWallType';
+            findObj = uosObj[0]['IfcWall'] && uosObj[0]['IfcWall'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcWallType');
           }
           if(!findObj){
-            findObj = uosObj[0]['IfcFlowTerminal'].find((r)=>r['$']['id'] === refStr);
-            currentType = 'IfcFlowTerminalType';
+            findObj = uosObj[0]['IfcFlowTerminal'] && uosObj[0]['IfcFlowTerminal'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcFlowTerminalType');
           }
-          componentArr.push({
+          if(!findObj){
+            findObj = uosObj[0]['IfcFlowSegment'] && uosObj[0]['IfcFlowSegment'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcFlowSegmentType');
+          }
+          if(!findObj){
+            findObj = uosObj[0]['IfcFlowFitting'] && uosObj[0]['IfcFlowFitting'].find((r)=>r['$']['id'] === refStr);
+            !findObj && (currentType = 'IfcFlowFittingType');
+          }
+          findObj && componentArr.push({
             ref: refStr,
             name: findObj['Name'][0],
             objectType: findObj['ObjectType'][0].split(':')[0],
@@ -76,7 +84,10 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
             const typeArr = item2[r];
             for (let i3 = 0; i3 < typeArr.length; i3++) {
               const typeRefItem = typeArr[i3]['$'];
+              // console.log(componentArr[findIndex],findIndex,componentArr);
+              if(!componentArr[findIndex]) continue;
               const currentTypeObj = uosObj[0][componentArr[findIndex]['currentType']];
+              if(!currentTypeObj) continue;
               for (let i4 = 0; i4 < currentTypeObj.length; i4++) {
                 const currentTypeHasPropertySets = currentTypeObj[i4]['HasPropertySets'];
                 for (let i5 = 0; i5 < currentTypeHasPropertySets.length; i5++) {
