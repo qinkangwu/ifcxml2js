@@ -166,6 +166,54 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
             }
           })
         }
+      }else{
+        let customDataArr = [];
+        for (let i6 = 0; i6 < uosObj[0]['IfcRelDefinesByProperties'].length; i6++) {
+          const element = uosObj[0]['IfcRelDefinesByProperties'][i6];
+          Object.keys(element['RelatedObjects'][0]).map((r)=>{
+            if(r !== '$'){
+              if(element['RelatedObjects'][0][r][0]['$']['ref'] === componentArr[i]['ref']){
+                for (let i7 = 0; i7 < element['RelatingPropertyDefinition'].length; i7++) {
+                  const element2 = element['RelatingPropertyDefinition'][i7];
+                  if(!element2['IfcPropertySet']) continue;
+                  for (let i8 = 0; i8 < element2['IfcPropertySet'].length; i8++) {
+                    const element3 = element2['IfcPropertySet'][i8];
+                    for (let i9 = 0; i9 < uosObj[0]['IfcPropertySet'].length; i9++) {
+                      const element4 = uosObj[0]['IfcPropertySet'][i9];
+                      if(element3['$']['ref'] === element4['$']['id']){
+                        for (let i10 = 0; i10 < element4['HasProperties'][0]['IfcPropertySingleValue'].length; i10++) {
+                          const element5 = element4['HasProperties'][0]['IfcPropertySingleValue'][i10];
+                          customDataArr.push(element5['$']['ref']) //节约几次循环 放到下面去了 不然又要遍历属性集合拿模型属性
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          })
+        }
+        customDataArr = Array.from(new Set(customDataArr));
+        for (let i8 = 0; i8 < uosObj[0]['IfcPropertySingleValue'].length; i8++) {
+          const itemValue = uosObj[0]['IfcPropertySingleValue'][i8];
+          for (let i9 = 0; i9 < customDataArr.length; i9++) {
+            const customItem = customDataArr[i9];
+            if(itemValue['$']['id'] === customItem){
+              if(itemValue['NominalValue'][0]['IfcText-wrapper']){
+                componentArr[i].properties.push({
+                  key:itemValue['Name'][0],
+                  value: itemValue['NominalValue'][0]['IfcText-wrapper'][0]
+                })
+              }
+              if(itemValue['NominalValue'][0]['IfcLengthMeasure-wrapper']){
+                componentArr[i].properties.push({
+                  key:itemValue['Name'][0],
+                  value: itemValue['NominalValue'][0]['IfcLengthMeasure-wrapper'][0]
+                })
+              }
+            }
+          }
+        }
       }
     }
     for (let i = 0; i < componentArr.length; i++) {
