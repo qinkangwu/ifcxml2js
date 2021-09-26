@@ -3,7 +3,7 @@ const fs = require('fs');
 const argv = require('optimist').argv;
 
 if(!argv.i || !argv.o || !argv.n)throw Error('参数为空');
-
+let d = Date.now();
 const map = [
   'IfcPipeFitting',
   'IfcPipeSegment',
@@ -240,6 +240,7 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
         console.error(err)
         return
       }
+      console.log(`success(${Date.now() - d }ms)`);
     })
   })
 });
