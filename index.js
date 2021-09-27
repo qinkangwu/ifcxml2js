@@ -235,6 +235,24 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
         }
       }
     }
+    if(argv.t){
+      let ids = [];
+      let globalIds = [];
+      componentArr.map((r,i)=>{
+        ids.push(i);
+        globalIds.push(r.globalId);
+      });
+      fs.writeFile(`${argv.t}.json`, JSON.stringify({
+        "batchId":ids,
+        "global":globalIds
+      },null,2), err => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        console.log(`success(${Date.now() - d }ms)`);
+      })
+    }
     fs.writeFile(`${argv.o}/${argv.n}.json`, JSON.stringify(componentArr,null,2), err => {
       if (err) {
         console.error(err)
