@@ -243,7 +243,7 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
         ids.push(i);
         globalIds.push(r.globalId);
       });
-      fs.writeFile(`${argv.t}.json`, JSON.stringify({
+      fs.writeFile(`${argv.o}/${argv.t}.json`, JSON.stringify({
         "batchId":ids,
         "global":globalIds
       },null,2), err => {
