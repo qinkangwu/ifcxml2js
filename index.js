@@ -3,6 +3,7 @@ const fs = require('fs');
 const argv = require('optimist').argv;
 
 if(!argv.i || !argv.o || !argv.n)throw Error('参数为空');
+if(argv.t === argv.n) throw Error('输出的数据json与obj属性表名称冲突');
 let d = Date.now();
 const map = [
   'IfcPipeFitting',
@@ -250,7 +251,6 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
           console.error(err)
           return
         }
-        console.log(`success(${Date.now() - d }ms)`);
       })
     }
     fs.writeFile(`${argv.o}/${argv.n}.json`, JSON.stringify(componentArr,null,2), err => {
