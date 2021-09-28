@@ -1,6 +1,6 @@
 {
   "name": "ifcxml2js",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,12 +11,13 @@
   },
   "author": "https://github.com/qinkangwu",
   "license": "ISC",
-  "repository":{ 
-    "type" : "git", 
-    "url" : "https://github.com/qinkangwu/ifcxml2js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qinkangwu/ifcxml2js"
   },
   "dependencies": {
-    "xml2js": "^0.4.23",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "uuid": "^8.3.2",
+    "xml2js": "^0.4.23"
   }
 }

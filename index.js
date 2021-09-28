@@ -1,6 +1,7 @@
 const parseString = require('xml2js').parseString;
 const fs = require('fs');
 const argv = require('optimist').argv;
+const { v4: uuidv4 } = require('uuid');
 
 if(!argv.i || !argv.o || !argv.n)throw Error('参数为空');
 if(argv.t === argv.n) throw Error('输出的数据json与obj属性表名称冲突');
@@ -52,7 +53,8 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
                 properties: [],
                 typeData:[],
                 globalId: findObj['GlobalId'][0],
-                currentType
+                currentType,
+                uId: uuidv4()
               });
             })
           }
@@ -239,13 +241,16 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
     if(argv.t){
       let ids = [];
       let globalIds = [];
+      let uids = [];
       componentArr.map((r,i)=>{
         ids.push(i);
         globalIds.push(r.globalId);
+        uids.push(r.uId)
       });
       fs.writeFile(`${argv.o}/${argv.t}.json`, JSON.stringify({
         "batchId":ids,
-        "global":globalIds
+        "global":globalIds,
+        "uid": uids
       },null,2), err => {
         if (err) {
           console.error(err)
