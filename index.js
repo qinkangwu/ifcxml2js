@@ -2,6 +2,7 @@ const parseString = require('xml2js').parseString;
 const fs = require('fs');
 const argv = require('optimist').argv;
 const { v4: uuidv4 } = require('uuid');
+const worker = require('worker_threads');
 
 if(!argv.i || !argv.o || !argv.n)throw Error('参数为空');
 if(argv.t === argv.n) throw Error('输出的数据json与obj属性表名称冲突');
@@ -22,6 +23,13 @@ const map = [
 
 fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
   parseString(xmlData,(err2,res)=>{
+    // fs.writeFile(`${argv.o}/${argv.n}.json`, JSON.stringify(res,null,2), err => {
+    //   if (err) {
+    //     console.error(err)
+    //     return
+    //   }
+    //   console.log(`success(${Date.now() - d }ms)`);
+    // })
     let element;
     let componentArr = [];
     for (let i = 0; i < Object.keys(res).length; i++) {
@@ -61,6 +69,7 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
         }
       }
     }
+
 
     const allTypes = uosObj[0]['IfcRelDefinesByType'];
     for (let i = 0; i < componentArr.length; i++) {
@@ -119,6 +128,7 @@ fs.readFile(argv.i, 'utf8' , (err, xmlData) => {
                   }
                   customDataArr = Array.from(new Set(customDataArr));
                   for (let i6 = 0; i6 < setsArr['IfcPropertySet'].length; i6++) {
+                    if(!setsArr['IfcPropertySet'][i6]['HasProperties']) continue;
                     const innerProperties = setsArr['IfcPropertySet'][i6]['HasProperties'][0];
                     const ifcPropertySingleValue = innerProperties['IfcPropertySingleValue'];
                     for (let i7 = 0; i7 < ifcPropertySingleValue.length; i7++) {

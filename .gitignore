@@ -18,5 +18,6 @@ package-lock.json
 *.ifcxml
 demo.*
 a.json
+index2.js
 
 npm-debug.log
